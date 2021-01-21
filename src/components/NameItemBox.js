@@ -1,22 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Button from '../components/Button';
 
-const NameBoxWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30px;
-  background-color: ${({ theme }) => theme.colors.orange};
-  box-shadow: ${({ theme }) => theme.boxShadows.default};
-  border-radius: 20px;
-  color: white;
-  font-size: ${({ theme }) => theme.fontSizes.xsmall};
+const Wrapper = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(6, minmax(70px, 1fr));
+  grid-auto-rows: minmax(10px, minmax(70px, 1fr));
+  column-gap: 10px;
+  row-gap: 10px;
+
 `;
 
-const NameBox = ({ name }) => {
-  return <NameBoxWrapper>{name}</NameBoxWrapper>;
+const NameItemBox = ({ children }) => {
+  return <Wrapper>{children}</Wrapper>;
 };
 
 // ChatBox.propTypes = {
@@ -38,4 +35,4 @@ const NameBox = ({ name }) => {
 //   isPrivate: PropTypes.bool,
 // };
 
-export default NameBox;
+export default NameItemBox;
