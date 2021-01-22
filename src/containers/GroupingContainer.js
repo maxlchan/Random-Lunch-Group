@@ -6,16 +6,17 @@ import CloseButton from '../components/Button/CloseButton';
 import ControllerBox from '../components/Box/ControllerBox';
 import GroupItemBox from '../components/Box/GroupBox';
 import GroupItem from '../components/Item/GroupItem';
-import InputItem from '../components/InputItem';
+import InputItem from '../components/Item/InputItem';
 import NameItem from '../components/Item/NameItem';
 import NameItemBox from '../components/Box/NameItemBox';
+import { alertWarning, generateRandomizedGroup } from '../utils';
 import {
   addPerson,
   deletePerson,
   fetchPeople,
   groupPeople,
 } from '../modules/lunch/lunch.reducer';
-import { alertWarning, generateRandomizedGroup } from '../utils';
+import { MESSAGE } from '../constants';
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,12 +27,10 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-family: Quicksand;
+  margin: 10px 0;
   font-size: ${({ theme }) => theme.fontSizes.xxl};
-  font-weight: ${({ theme }) => theme.fontWeights.strong};
   color: ${({ theme }) => theme.colors.whiteBlue};
   text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-  margin: 10px 0;
 `;
 
 const ContentsBox = styled.div`
@@ -41,11 +40,11 @@ const ContentsBox = styled.div`
   width: 1000px;
   height: 100%;
   min-height: 80vh;
-  background-color: ${({ theme }) => theme.colors.yellow};
-  border-radius: 10px;
-  box-shadow: ${({ theme }) => theme.boxShadows.deep};
   padding: 40px 40px 10px 40px;
   margin-bottom: 20px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.yellow};
+  box-shadow: ${({ theme }) => theme.boxShadows.deep};
 `;
 
 const ContentMain = styled.main`
@@ -83,17 +82,17 @@ const GroupingContainer = () => {
   const handleAddPersonButtonClick = () => {
     const isNameExisted = people.find((person) => person.name === name);
 
-    if (!name) return alertWarning('이름을 입력해주세요.');
-    if (isNameExisted) return alertWarning('동일한 이름이 이미 존재합니다.');
+    if (!name) return alertWarning(MESSAGE.emptyName);
+    if (isNameExisted) return alertWarning(MESSAGE.nameExisted);
 
     dispatch(addPerson(name));
     setName('');
   };
 
   const handleRandomizeGroupButtonClick = () => {
-    if (!groupNumber) return alertWarning('그룹 수를 입력하세요.');
-    if (minimumPerGroup < 1) return alertWarning('최소 인원을 1명 이상 입력해주세요.');
-    if (peopleNumber < minimumPerGroup * groupNumber) return alertWarning('그룹을 구성할 인원이 부족합니다');
+    if (!groupNumber) return alertWarning(MESSAGE.emptyGroupNumber);
+    if (minimumPerGroup < 1) return alertWarning(MESSAGE.emptyMinimumNumber);
+    if (peopleNumber < minimumPerGroup * groupNumber) return alertWarning(MESSAGE.lackOfPerson);
 
     const randomizedGroup = generateRandomizedGroup(
       people,

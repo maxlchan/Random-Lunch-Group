@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import NameItem from './NameItem';
-// import useScrollToBottom from '../hooks/useScrollToBottom';
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,11 +9,11 @@ const Wrapper = styled.div`
   align-items: center;
   width: 160px;
   min-height: 200px;
+  padding: 10px;
+  margin: 10px;
   overflow: auto;
   background-color: ${({ theme }) => theme.colors.whiteBlue};
   box-shadow: ${({ theme }) => theme.boxShadows.deep};
-  padding: 10px;
-  margin: 10px;
 `;
 
 const GroupName = styled.h1`

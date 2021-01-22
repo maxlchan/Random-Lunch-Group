@@ -11,11 +11,11 @@ const Wrapper = styled.div`
   color: ${({ theme }) => theme.colors.darkBlue};
 
   input {
-    background-color: transparent;
+    margin-top: 15px;
     border: none;
     border-bottom: 1px solid #303c6c;
+    background-color: transparent;
     color: ${({ theme }) => theme.colors.darkBlue};
-    margin-top: 15px;
     text-align: center;
   }
 `;
@@ -55,7 +55,7 @@ InputItem.propTypes = {
   content: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onKeyPress: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   placeholder: PropTypes.string.isRequired,
 };
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Button from '../Button/Button';
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,11 +10,11 @@ const Wrapper = styled.div`
   height: 30px;
   margin: 5px;
   position: relative;
+  border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.orange};
   box-shadow: ${({ theme }) => theme.boxShadows.default};
-  border-radius: 20px;
-  color: white;
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
+  color: white;
   user-select: none;
 
   span {

@@ -1,14 +1,11 @@
 const mongoose = require('mongoose');
 
 const dbLoader = () => {
-  mongoose.connect(
-    process.env.MONGO_DB_URL,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    }
-  );
+  mongoose.connect(process.env.MONGO_DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  });
 
   const db = mongoose.connection;
 

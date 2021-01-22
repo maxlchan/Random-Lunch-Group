@@ -1,6 +1,8 @@
+import { ROUTES } from '../constants';
+
 export const fetchPeople = async () => {
   try {
-    const response = await fetch('http://localhost:4000/api/people', {
+    const response = await fetch(`${ROUTES.baseUrl}${ROUTES.api.people}`, {
       method: 'GET',
     });
 
@@ -12,7 +14,7 @@ export const fetchPeople = async () => {
 
 export const addPerson = async (name) => {
   try {
-    const response = await fetch('http://localhost:4000/api/people', {
+    const response = await fetch(`${ROUTES.baseUrl}${ROUTES.api.people}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,9 +30,12 @@ export const addPerson = async (name) => {
 
 export const deletePerson = async (id) => {
   try {
-    const response = await fetch(`http://localhost:4000/api/people/${id}`, {
-      method: 'DELETE',
-    });
+    const response = await fetch(
+      `${ROUTES.baseUrl}${ROUTES.api.people}/${id}`,
+      {
+        method: 'DELETE',
+      }
+    );
 
     return response.json();
   } catch (err) {
