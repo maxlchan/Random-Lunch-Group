@@ -11,11 +11,18 @@ exports.getAllPerson = async () => {
 };
 
 exports.addPerson = async (name) => {
-  console.log(name);
   try {
     const createdPerson = await Person.create({ name });
 
     return createdPerson;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+exports.deletePerson = async (id) => {
+  try {
+    await Person.findByIdAndRemove(id);
   } catch (err) {
     throw new Error(err);
   }

@@ -23,7 +23,7 @@ const GroupName = styled.h1`
   width: 90%;
   height: 5vh;
   border-bottom: 1px solid black;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 `;
 
 const GroupMembersWrapper = styled.div`
@@ -33,14 +33,13 @@ const GroupMembersWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const GroupItem = ({ index, memberNames }) => {
-  // const messagesEndRef = useScrollToBottom(messages);
+const GroupItem = ({ index, groupMembers }) => {
   return (
     <Wrapper>
       <GroupName>{index}조</GroupName>
       <GroupMembersWrapper>
-        {memberNames.map((memberName) => (
-          <NameItem name={memberName} />
+        {groupMembers.map((groupMember) => (
+          <NameItem key={groupMember._id} name={groupMember.name} />
         ))}
       </GroupMembersWrapper>
     </Wrapper>

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import Button from '../components/Button';
 import CloseButton from '../components/CloseButton';
 import ControllerBox from '../components/ControllerBox';
@@ -9,44 +10,13 @@ import GroupItem from '../components/GroupItem';
 import Input from '../components/Input';
 import NameItem from '../components/NameItem';
 import NameItemBox from '../components/NameItemBox';
-import { addPerson } from '../modules/lunch';
-
-const people = [
-  { name: '김찬중' },
-  { name: 'asfaf' },
-  { name: 'asdada' },
-  { name: 'qasdfsd' },
-  { name: 'asdasazz' },
-  { name: 'asdaaasdasdsdssdda' },
-  { name: 'asdasdada' },
-];
-
-const groups = [
-  {
-    members: ['asfaf', 'asfaf', 'asfaf'],
-  },
-  {
-    members: ['asfaf', 'asfaf', 'asfaf'],
-  },
-  {
-    members: ['asfaf', 'asfaf', 'asfaf'],
-  },
-  {
-    members: [
-      'asfaf',
-      'asfaf',
-      'asfaf',
-      'asfaf',
-      'asfaf',
-      'asfaf',
-      'asfaf',
-      'asfaf',
-    ],
-  },
-  {
-    members: ['asfaf', 'asfaf', 'asfaf'],
-  },
-];
+import {
+  addPerson,
+  deletePerson,
+  fetchPeople,
+  groupPeople,
+} from '../modules/lunch/lunch.reducer';
+import { alertWarning, generateRandomizedGroup } from '../utils';
 
 const Wrapper = styled.div`
   display: flex;
@@ -92,21 +62,57 @@ const ContentTitle = styled.h1`
   margin: 20px;
 `;
 
+const ContentGuideText = styled.h1`
+  color: gray;
+`;
+
 const GroupingContainer = () => {
+  const { people, groups } = useSelector((state) => state.lunch);
   const [name, setName] = useState('');
   const [groupNumber, setGroupNumber] = useState('');
-  const [mininumPerGroup, setMininumPerGroupChange] = useState('');
+  const [minimumPerGroup, setMinimumPerGroup] = useState('');
   const dispatch = useDispatch();
+  const peopleNumber = people.length;
+  const groupsNumber = groups.length;
 
-  const handleNameChange = (e) => setName(e.target.value);
-  const handleGroupNumberChange = (e) => setGroupNumber(e.target.value);
-  const handleMininumPerGroupChange = (e) =>
-    setMininumPerGroupChange(e.target.value);
-  const handleAddPersonButtonClick = () => dispatch(addPerson(name));
-
-  const handleCloseButtonClick = () => {
-    console.log(123);
+  const handleNameChange = (e) => {
+    console.log(e.target.value);
+    setName(e.target.value);
   };
+  const handleGroupNumberChange = (e) => setGroupNumber(e.target.value);
+  const handleMinimumPerGroupChange = (e) => setMinimumPerGroup(e.target.value);
+  const handleCloseButtonClick = (id) => dispatch(deletePerson(id));
+
+  const handleAddPersonButtonClick = () => {
+    const isNameExisted = people.find((person) => person.name === name);
+
+    if (!name) return alertWarning('이름을 입력해주세요.');
+    if (isNameExisted) return alertWarning('동일한 이름이 이미 존재합니다.');
+
+    dispatch(addPerson(name));
+    setName('');
+  };
+
+  const handleRandomizeGroupButtonClick = () => {
+    if (!groupNumber) return alertWarning('그룹 수를 입력하세요.');
+    if (minimumPerGroup < 1)
+      return alertWarning('최소 인원을 1명 이상 입력해주세요.');
+    if (peopleNumber < minimumPerGroup * groupNumber)
+      return alertWarning('그룹을 구성할 인원이 부족합니다');
+
+    const randomizedGroup = generateRandomizedGroup(
+      people,
+      Number(groupNumber),
+      Number(minimumPerGroup)
+    );
+    console.log(randomizedGroup);
+    dispatch(groupPeople(randomizedGroup));
+  };
+
+  useEffect(() => {
+    dispatch(fetchPeople());
+  }, []);
+
   return (
     <Wrapper>
       <Title>Let's Make Random Lunch Group!</Title>
@@ -118,6 +124,7 @@ const GroupingContainer = () => {
             placeholder={'추가할 이름을 입력하세요'}
             value={name}
             onChange={handleNameChange}
+            onKeyPress={handleAddPersonButtonClick}
           />
           <Button text={'인원 추가하기'} onClick={handleAddPersonButtonClick} />
           <Input
@@ -131,29 +138,44 @@ const GroupingContainer = () => {
             type={'number'}
             content={'그룹별 최소 인원'}
             placeholder={'최소 인원을 입력하세요'}
-            value={mininumPerGroup}
-            onChange={handleMininumPerGroupChange}
+            value={minimumPerGroup}
+            onChange={handleMinimumPerGroupChange}
           />
           <Button
             text={'랜덤으로 그룹 나누기'}
-            onClick={handleAddPersonButtonClick}
+            onClick={handleRandomizeGroupButtonClick}
           />
         </ControllerBox>
         <ContentMain>
           <ContentTitle>점심 인원</ContentTitle>
-          <NameItemBox>
-            {people.map((person) => (
-              <NameItem name={person.name}>
-                <CloseButton onClick={handleCloseButtonClick} />
-              </NameItem>
-            ))}
-          </NameItemBox>
+          {peopleNumber ? (
+            <NameItemBox>
+              {people.map((person) => (
+                <NameItem name={person.name} key={person._id}>
+                  <CloseButton
+                    onClick={handleCloseButtonClick}
+                    id={person._id}
+                  />
+                </NameItem>
+              ))}
+            </NameItemBox>
+          ) : (
+            <ContentGuideText>인원을 등록해주세요</ContentGuideText>
+          )}
           <ContentTitle>그룹</ContentTitle>
-          <GroupItemBox>
-            {groups.map((group, index) => (
-              <GroupItem index={index} memberNames={group.members} />
-            ))}
-          </GroupItemBox>
+          {groupsNumber ? (
+            <GroupItemBox>
+              {groups.map((group, index) => (
+                <GroupItem
+                  key={group._id}
+                  index={index + 1}
+                  groupMembers={group.members}
+                />
+              ))}
+            </GroupItemBox>
+          ) : (
+            <ContentGuideText>그룹을 나누어 주세요</ContentGuideText>
+          )}
         </ContentMain>
       </ContentsBox>
     </Wrapper>

@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export const fetchPeople = async () => {
   try {
     const response = await fetch('http://localhost:4000/api/people', {
@@ -24,6 +22,18 @@ export const addPerson = async (name) => {
 
     return response.json();
   } catch (err) {
-    throw new Error(err);
+    throw Error(err);
+  }
+};
+
+export const deletePerson = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:4000/api/people/${id}`, {
+      method: 'DELETE',
+    });
+
+    return response.json();
+  } catch (err) {
+    throw Error(err);
   }
 };

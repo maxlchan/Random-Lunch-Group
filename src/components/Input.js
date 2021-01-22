@@ -20,7 +20,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const Input = ({ type, content, value, onChange, placeholder }) => {
+const Input = ({ type, content, value, onChange, onKeyPress, placeholder }) => {
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') onKeyPress();
+  }
+
   return (
     <Wrapper>
       <label htmlFor={content}>{content}</label>
@@ -29,7 +33,11 @@ const Input = ({ type, content, value, onChange, placeholder }) => {
         id={content}
         value={value}
         onChange={onChange}
+        onKeyPress={handleKeyPress}
         placeholder={placeholder}
+        autoFocus
+        spellCheck='false'
+        autoComplete='off'
       />
     </Wrapper>
   );

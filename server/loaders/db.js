@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const dbLoader = () => {
   mongoose.connect(
-    'mongodb+srv://maxlchan:kcj5614541@codewars.wtb08.mongodb.net/lunch?retryWrites=true&w=majority',
+    process.env.MONGO_DB_URL,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

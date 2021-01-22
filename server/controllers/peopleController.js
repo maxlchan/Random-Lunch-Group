@@ -16,7 +16,19 @@ exports.addPerson = async (req, res, next) => {
     const { name } = req.body;
     const person = await peopleService.addPerson(name);
 
-    res.status(201).json({ result: 'ok', person });
+    res.status(201).json({ result: 'created', person });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+exports.deletePerson = async (req, res, next) => {
+  try {
+    const { personId } = req.params;
+    await peopleService.deletePerson(personId);
+
+    res.status(200).json({ result: 'ok' });
   } catch (err) {
     console.log(err);
     next(err);

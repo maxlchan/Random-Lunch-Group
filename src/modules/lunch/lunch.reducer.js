@@ -3,13 +3,16 @@ import {
   createReducer,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import * as api from '../utils/api';
+import * as api from '../../utils/api';
 
+export const groupPeople = createAction('lunch/groupPeople');
 export const fetchPeople = createAsyncThunk(
   'lunch/fetchPeople',
   async (_, THUNK_API) => {
     try {
-      const { person } = await api.fetchPeople();
+      const { result, people } = await api.fetchPeople();
+
+      if (result === 'ok') return people;
     } catch (err) {
       throw Error(err);
     }
@@ -18,11 +21,11 @@ export const fetchPeople = createAsyncThunk(
 
 export const addPerson = createAsyncThunk(
   'lunch/addPerson',
-  async (name, { getState }) => {
+  async (name, THUNK_API) => {
     try {
-      const { person } = await api.addPerson(name);
+      const { result, person } = await api.addPerson(name);
 
-      return person;
+      if (result === 'created') return person;
     } catch (err) {
       throw Error(err);
     }
@@ -31,20 +34,23 @@ export const addPerson = createAsyncThunk(
 
 export const deletePerson = createAsyncThunk(
   'lunch/deletePerson',
-  async (name, { getState }) => {
+  async (id, { getState }) => {
     try {
-      const { person } = await api.addPerson(name);
+      const {
+        lunch: { people },
+      } = getState();
+      const { result } = await api.deletePerson(id);
 
-      return person;
-    } catch (err) {}
+      if (result === 'ok') return people.filter((person) => person._id !== id);
+    } catch (err) {
+      throw Error(err);
+    }
   }
 );
 
 const initialState = {
   people: [],
-  group: {
-    members: [],
-  },
+  groups: [],
   isLoading: false,
   error: null,
 };
@@ -89,20 +95,20 @@ const lunchReducer = createReducer(initialState, {
     isLoading: true,
     error: null,
   }),
-  [deletePerson.fulfilled]: (state, action) => {
-    console.log(state);
-    console.log(action.payload);
-    return {
-      ...state,
-      isLoading: false,
-      error: null,
-      people: [...state.people, action.payload],
-    };
-  },
+  [deletePerson.fulfilled]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: null,
+    people: action.payload,
+  }),
   [deletePerson.rejected]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.error.message,
+  }),
+  [groupPeople]: (state, action) => ({
+    ...state,
+    groups: action.payload,
   }),
 });
 
