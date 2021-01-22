@@ -109,7 +109,7 @@ const GroupingContainer = () => {
 
   return (
     <Wrapper>
-      <Title>Let's Make Random Lunch Group!</Title>
+      <Title>Let's randomly divide people for lunch time.</Title>
       <ContentsBox>
         <ControllerBox name={'옵션'}>
           <InputItem
