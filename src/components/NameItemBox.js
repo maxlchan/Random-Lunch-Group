@@ -7,7 +7,6 @@ const Wrapper = styled.div`
   width: 100%;
   grid-template-columns: repeat(6, minmax(70px, 1fr));
   grid-auto-rows: minmax(10px, minmax(70px, 1fr));
-  column-gap: 10px;
   row-gap: 10px;
 
 `;

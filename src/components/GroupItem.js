@@ -22,16 +22,15 @@ const GroupName = styled.h1`
   align-items: center;
   width: 90%;
   height: 5vh;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   margin-bottom: 10px
 `;
 
 const GroupMembersWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  height: 100%;
+  flex-wrap: wrap;
 `;
 
 const GroupItem = ({ index, memberNames }) => {

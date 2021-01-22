@@ -1,40 +1,109 @@
-import { combineReducers } from 'redux'
-// import * as api from '../utils/api'
+import {
+  createAction,
+  createReducer,
+  createAsyncThunk,
+} from '@reduxjs/toolkit';
+import * as api from '../utils/api';
 
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const FETCH_PEOPLE = 'FETCH_PEOPLE'
-
-// ------------------------------------
-// Actions
-// ------------------------------------
-export const fetchPeople = () => {
-  return (dispatch, getState) => {
-
+export const fetchPeople = createAsyncThunk(
+  'lunch/fetchPeople',
+  async (_, THUNK_API) => {
+    try {
+      const { person } = await api.fetchPeople();
+    } catch (err) {
+      throw Error(err);
+    }
   }
-}
+);
 
-export const actions = {
+export const addPerson = createAsyncThunk(
+  'lunch/addPerson',
+  async (name, { getState }) => {
+    try {
+      const { person } = await api.addPerson(name);
 
-}
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-function people (state = [], action) {
-  switch (action.type) {
-    case FETCH_PEOPLE:
-    default:
-      return state
+      return person;
+    } catch (err) {
+      throw Error(err);
+    }
   }
-}
+);
 
-const lunchReducer = combineReducers({
-  people
-})
+export const deletePerson = createAsyncThunk(
+  'lunch/deletePerson',
+  async (name, { getState }) => {
+    try {
+      const { person } = await api.addPerson(name);
 
-export const getPeople = state => state.lunch.people
+      return person;
+    } catch (err) {}
+  }
+);
 
-export default lunchReducer
+const initialState = {
+  people: [],
+  group: {
+    members: [],
+  },
+  isLoading: false,
+  error: null,
+};
+
+const lunchReducer = createReducer(initialState, {
+  [fetchPeople.pending]: (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  }),
+  [fetchPeople.fulfilled]: (state, action) => {
+    return {
+      ...state,
+      isLoading: false,
+      error: null,
+      people: action.payload,
+    };
+  },
+  [fetchPeople.rejected]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error.message,
+  }),
+  [addPerson.pending]: (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  }),
+  [addPerson.fulfilled]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: null,
+    people: [...state.people, action.payload],
+  }),
+  [addPerson.rejected]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error.message,
+  }),
+  [deletePerson.pending]: (state, action) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  }),
+  [deletePerson.fulfilled]: (state, action) => {
+    console.log(state);
+    console.log(action.payload);
+    return {
+      ...state,
+      isLoading: false,
+      error: null,
+      people: [...state.people, action.payload],
+    };
+  },
+  [deletePerson.rejected]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.error.message,
+  }),
+});
+
+export default lunchReducer;

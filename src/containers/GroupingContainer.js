@@ -1,36 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../components/Button';
+import CloseButton from '../components/CloseButton';
 import ControllerBox from '../components/ControllerBox';
 import GroupItemBox from '../components/GroupBox';
 import GroupItem from '../components/GroupItem';
 import Input from '../components/Input';
 import NameItem from '../components/NameItem';
 import NameItemBox from '../components/NameItemBox';
+import { addPerson } from '../modules/lunch';
 
-const members = [
+const people = [
   { name: '김찬중' },
   { name: 'asfaf' },
   { name: 'asdada' },
   { name: 'qasdfsd' },
   { name: 'asdasazz' },
-  { name: 'asdaasdda' },
+  { name: 'asdaaasdasdsdssdda' },
   { name: 'asdasdada' },
 ];
 
 const groups = [
   {
-    members: ['asfaf', 'asfaf', 'asfaf' ],
+    members: ['asfaf', 'asfaf', 'asfaf'],
   },
   {
     members: ['asfaf', 'asfaf', 'asfaf'],
+  },
+  {
+    members: ['asfaf', 'asfaf', 'asfaf'],
+  },
+  {
+    members: [
+      'asfaf',
+      'asfaf',
+      'asfaf',
+      'asfaf',
+      'asfaf',
+      'asfaf',
+      'asfaf',
+      'asfaf',
+    ],
   },
   {
     members: ['asfaf', 'asfaf', 'asfaf'],
   },
 ];
-
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,7 +61,7 @@ const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSizes.xxl};
   font-weight: ${({ theme }) => theme.fontWeights.strong};
   color: ${({ theme }) => theme.colors.whiteBlue};
-  text-shadow: 2px 3px 5px rgba(0,0,0,0.5);
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
   margin: 10px 0;
 `;
 
@@ -77,34 +93,59 @@ const ContentTitle = styled.h1`
 `;
 
 const GroupingContainer = () => {
+  const [name, setName] = useState('');
+  const [groupNumber, setGroupNumber] = useState('');
+  const [mininumPerGroup, setMininumPerGroupChange] = useState('');
+  const dispatch = useDispatch();
+
+  const handleNameChange = (e) => setName(e.target.value);
+  const handleGroupNumberChange = (e) => setGroupNumber(e.target.value);
+  const handleMininumPerGroupChange = (e) =>
+    setMininumPerGroupChange(e.target.value);
+  const handleAddPersonButtonClick = () => dispatch(addPerson(name));
+
+  const handleCloseButtonClick = () => {
+    console.log(123);
+  };
   return (
     <Wrapper>
-      <Title>Let's Make Lunch Group!</Title>
+      <Title>Let's Make Random Lunch Group!</Title>
       <ContentsBox>
         <ControllerBox name={'옵션'}>
           <Input
             type={'text'}
             content={'이름'}
             placeholder={'추가할 이름을 입력하세요'}
+            value={name}
+            onChange={handleNameChange}
           />
-          <Button text={'인원 추가하기'} />
+          <Button text={'인원 추가하기'} onClick={handleAddPersonButtonClick} />
           <Input
             type={'number'}
             content={'그룹 수'}
             placeholder={'그룹 수를 입력하세요'}
+            value={groupNumber}
+            onChange={handleGroupNumberChange}
           />
           <Input
             type={'number'}
             content={'그룹별 최소 인원'}
             placeholder={'최소 인원을 입력하세요'}
+            value={mininumPerGroup}
+            onChange={handleMininumPerGroupChange}
           />
-          <Button text={'랜덤으로 그룹 나누기'} />
+          <Button
+            text={'랜덤으로 그룹 나누기'}
+            onClick={handleAddPersonButtonClick}
+          />
         </ControllerBox>
         <ContentMain>
           <ContentTitle>점심 인원</ContentTitle>
           <NameItemBox>
-            {members.map((color) => (
-              <NameItem name={color.name} />
+            {people.map((person) => (
+              <NameItem name={person.name}>
+                <CloseButton onClick={handleCloseButtonClick} />
+              </NameItem>
             ))}
           </NameItemBox>
           <ContentTitle>그룹</ContentTitle>

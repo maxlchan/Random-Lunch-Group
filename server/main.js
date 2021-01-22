@@ -2,13 +2,13 @@ const express = require('express');
 const createError = require('http-errors');
 const initLoader = require('./loaders');
 const dbLoader = require('./loaders/db');
-const personRouter = require('./routes/personRouter.');
+const peopleRouter = require('./routes/peopleRouter');
 const app = express();
 
 dbLoader();
 initLoader(app);
 
-app.use('/api', personRouter);
+app.use('/api', peopleRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
@@ -22,6 +22,6 @@ app.use(function (err, req, res, next) {
     : res.status(500).json({ result: RESPONSE.INTERNAL_SEVER_ERROR });
 });
 
-app.listen(2018, () => console.log('Lunch app is listening on port 2018!'));
+app.listen(4000, () => console.log('Lunch app is listening on port 4000!'));
 
 module.exports = app;
