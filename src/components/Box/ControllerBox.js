@@ -7,15 +7,16 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  position: sticky;
-  top: 20px;
   width: 20%;
   min-width: 250px;
   height: 100%;
   min-height: 550px;
+  position: sticky;
+  top: 20px;
   border-radius: 10px;
+  font-size: ${({ theme }) => theme.fontSizes.medium};
   background-color: ${({ theme }) => theme.colors.whiteBlue};
-  box-shadow: ${({ theme }) => theme.boxShadows.default};
+  box-shadow: ${({ theme }) => theme.boxShadows.deep};
 `;
 
 const ControllerBox = ({ name, children }) => {
@@ -25,6 +26,11 @@ const ControllerBox = ({ name, children }) => {
       {children}
     </Wrapper>
   );
+};
+
+ControllerBox.propTypes = {
+  name: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default ControllerBox;

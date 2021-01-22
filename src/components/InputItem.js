@@ -20,10 +20,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const Input = ({ type, content, value, onChange, onKeyPress, placeholder }) => {
+const InputItem = ({
+  type,
+  content,
+  value,
+  onChange,
+  onKeyPress,
+  placeholder,
+}) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') onKeyPress();
-  }
+  };
 
   return (
     <Wrapper>
@@ -43,8 +50,13 @@ const Input = ({ type, content, value, onChange, onKeyPress, placeholder }) => {
   );
 };
 
-// Bullet.propTypes = {
-//   text: PropTypes.string.isRequired,
-// };
+InputItem.propTypes = {
+  type: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+};
 
-export default Input;
+export default InputItem;

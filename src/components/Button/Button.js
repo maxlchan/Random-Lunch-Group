@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Wrapper = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
   padding: 10px;
+  border-radius: 5px;
   box-shadow: ${({ theme }) => theme.boxShadows.default};
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   cursor: pointer;
@@ -29,29 +30,18 @@ const Wrapper = styled.button`
   }
 `;
 
-const Button = ({
-  id,
-  className,
-  disabled,
-  onClick,
-  color,
-  width,
-  padding,
-  text,
-}) => {
+const Button = ({ onClick, color, text }) => {
   return (
-    <Wrapper
-      id={id}
-      className={className}
-      disabled={disabled}
-      onClick={onClick}
-      color={color}
-      width={width}
-      padding={padding}
-    >
+    <Wrapper onClick={onClick} color={color}>
       <span>{text}</span>
     </Wrapper>
   );
+};
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  color: PropTypes.string,
+  text: PropTypes.string.isRequired,
 };
 
 export default Button;

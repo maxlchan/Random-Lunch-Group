@@ -36,9 +36,7 @@ export const deletePerson = createAsyncThunk(
   'lunch/deletePerson',
   async (id, { getState }) => {
     try {
-      const {
-        lunch: { people },
-      } = getState();
+      const { lunch: { people } } = getState();
       const { result } = await api.deletePerson(id);
 
       if (result === 'ok') return people.filter((person) => person._id !== id);

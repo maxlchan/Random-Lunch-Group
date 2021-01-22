@@ -3,15 +3,13 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
 * {
 	@font-face {
-    font-family: 'Jal_Onuel';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Jal_Onuel.woff') format('woff');
+    font-family: 'ImcreSoojin';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.3/ImcreSoojin.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 	}
 
-	@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
-
-	font-family: 'Jal_Onuel', sans-serif;
+	font-family: 'ImcreSoojin', sans-serif;
 }
 
 html, body, div, span, applet, object, iframe,
@@ -51,7 +49,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
 	background-color: #F4976C;
-	font-family: 'Jal_Onuel', sans-serif;
+	font-family: 'ImcreSoojin', sans-serif;
 }
 
 ol, ul {

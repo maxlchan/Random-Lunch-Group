@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
-import Button from '../components/Button';
-import CloseButton from '../components/CloseButton';
-import ControllerBox from '../components/ControllerBox';
-import GroupItemBox from '../components/GroupBox';
-import GroupItem from '../components/GroupItem';
-import Input from '../components/Input';
-import NameItem from '../components/NameItem';
-import NameItemBox from '../components/NameItemBox';
+import Button from '../components/Button/Button';
+import CloseButton from '../components/Button/CloseButton';
+import ControllerBox from '../components/Box/ControllerBox';
+import GroupItemBox from '../components/Box/GroupBox';
+import GroupItem from '../components/Item/GroupItem';
+import InputItem from '../components/InputItem';
+import NameItem from '../components/Item/NameItem';
+import NameItemBox from '../components/Box/NameItemBox';
 import {
   addPerson,
   deletePerson,
@@ -60,6 +59,7 @@ const ContentMain = styled.main`
 const ContentTitle = styled.h1`
   width: 100%;
   margin: 20px;
+  font-size: ${({ theme }) => theme.fontSizes.medium};
 `;
 
 const ContentGuideText = styled.h1`
@@ -75,10 +75,7 @@ const GroupingContainer = () => {
   const peopleNumber = people.length;
   const groupsNumber = groups.length;
 
-  const handleNameChange = (e) => {
-    console.log(e.target.value);
-    setName(e.target.value);
-  };
+  const handleNameChange = (e) => setName(e.target.value);
   const handleGroupNumberChange = (e) => setGroupNumber(e.target.value);
   const handleMinimumPerGroupChange = (e) => setMinimumPerGroup(e.target.value);
   const handleCloseButtonClick = (id) => dispatch(deletePerson(id));
@@ -95,17 +92,15 @@ const GroupingContainer = () => {
 
   const handleRandomizeGroupButtonClick = () => {
     if (!groupNumber) return alertWarning('그룹 수를 입력하세요.');
-    if (minimumPerGroup < 1)
-      return alertWarning('최소 인원을 1명 이상 입력해주세요.');
-    if (peopleNumber < minimumPerGroup * groupNumber)
-      return alertWarning('그룹을 구성할 인원이 부족합니다');
+    if (minimumPerGroup < 1) return alertWarning('최소 인원을 1명 이상 입력해주세요.');
+    if (peopleNumber < minimumPerGroup * groupNumber) return alertWarning('그룹을 구성할 인원이 부족합니다');
 
     const randomizedGroup = generateRandomizedGroup(
       people,
       Number(groupNumber),
       Number(minimumPerGroup)
     );
-    console.log(randomizedGroup);
+
     dispatch(groupPeople(randomizedGroup));
   };
 
@@ -118,7 +113,7 @@ const GroupingContainer = () => {
       <Title>Let's Make Random Lunch Group!</Title>
       <ContentsBox>
         <ControllerBox name={'옵션'}>
-          <Input
+          <InputItem
             type={'text'}
             content={'이름'}
             placeholder={'추가할 이름을 입력하세요'}
@@ -127,14 +122,14 @@ const GroupingContainer = () => {
             onKeyPress={handleAddPersonButtonClick}
           />
           <Button text={'인원 추가하기'} onClick={handleAddPersonButtonClick} />
-          <Input
+          <InputItem
             type={'number'}
             content={'그룹 수'}
             placeholder={'그룹 수를 입력하세요'}
             value={groupNumber}
             onChange={handleGroupNumberChange}
           />
-          <Input
+          <InputItem
             type={'number'}
             content={'그룹별 최소 인원'}
             placeholder={'최소 인원을 입력하세요'}

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Button = styled.span`
+const Button = styled.button`
   position: absolute;
-  top: -7px;
-  right: -7px;
+  top: -10px;
+  right: -10px;
   font-size: 15px;
-
+  background-color: transparent;
   &:hover {
     transform: scale(1.5);
   }
@@ -20,9 +20,13 @@ const CloseButton = ({ onClick, id }) => {
 
     onClick(id);
     setIsClicked(true);
-  }
+  };
 
-  return <Button onClick={handleButtonClick}>❌</Button>;
+  return (
+    <Button onClick={handleButtonClick} >
+      <span role="img" aria-label='close-button'>❌</span>
+    </Button>
+  );
 };
 
 CloseButton.propTypes = {

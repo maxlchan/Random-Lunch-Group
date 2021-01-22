@@ -15,6 +15,10 @@ const NameItemBox = ({ children }) => {
   return <Wrapper>{children}</Wrapper>;
 };
 
+NameItemBox.propTypes = {
+  children: PropTypes.node,
+};
+
 // ChatBox.propTypes = {
 //   message: PropTypes.string.isRequired,
 //   messages: PropTypes.arrayOf(

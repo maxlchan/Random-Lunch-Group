@@ -34,6 +34,7 @@ const GroupMembersWrapper = styled.div`
 `;
 
 const GroupItem = ({ index, groupMembers }) => {
+  console.log(groupMembers);
   return (
     <Wrapper>
       <GroupName>{index}조</GroupName>
@@ -46,23 +47,14 @@ const GroupItem = ({ index, groupMembers }) => {
   );
 };
 
-// ChatBox.propTypes = {
-//   message: PropTypes.string.isRequired,
-//   messages: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       imageUrl: PropTypes.string.isRequired,
-//       name: PropTypes.string.isRequired,
-//       message: PropTypes.string.isRequired,
-//       isHost: PropTypes.bool.isRequired,
-//       ownerId: PropTypes.string.isRequired,
-//     })
-//   ),
-//   onKeyPress: PropTypes.func.isRequired,
-//   onClick: PropTypes.func.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   memberNumber: PropTypes.number,
-//   userId: PropTypes.string.isRequired,
-//   isPrivate: PropTypes.bool,
-// };
+GroupItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  groupMembers: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  )
+};
 
 export default GroupItem;
