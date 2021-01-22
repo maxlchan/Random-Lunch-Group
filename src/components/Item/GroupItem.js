@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadows.deep};
 `;
 
-const GroupName = styled.h1`
+export const GroupName = styled.h1`
   display: flex;
   align-items: center;
   width: 90%;
@@ -33,7 +33,6 @@ const GroupMembersWrapper = styled.div`
 `;
 
 const GroupItem = ({ index, groupMembers }) => {
-  console.log(groupMembers);
   return (
     <Wrapper>
       <GroupName>{index}조</GroupName>
@@ -52,8 +51,8 @@ GroupItem.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-    })
-  )
+    }).isRequired
+  ),
 };
 
 export default GroupItem;

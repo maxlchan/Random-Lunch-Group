@@ -37,7 +37,6 @@ const InputItem = ({
       <label htmlFor={content}>{content}</label>
       <input
         type={type}
-        id={content}
         value={value}
         onChange={onChange}
         onKeyPress={handleKeyPress}
