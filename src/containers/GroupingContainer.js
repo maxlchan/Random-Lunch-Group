@@ -162,7 +162,7 @@ const GroupingContainer = () => {
               {groups.map((group, index) => (
                 <GroupItem
                   key={group._id}
-                  index={index + 1}
+                  groupName={`${index + 1}조`}
                   groupMembers={group.members}
                 />
               ))}

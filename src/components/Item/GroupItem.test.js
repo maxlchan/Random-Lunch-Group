@@ -11,15 +11,14 @@ describe('<GroupItem>', () => {
   ];
 
   const mockProps = {
-    index: 3,
+    groupName: '불사조',
     groupMembers: mockData,
   };
 
   const wrapper = shallow(<GroupItem {...mockProps} />);
 
   it('should renders correctly depended on props', () => {
-    console.log(wrapper.find(GroupName));
-    expect(wrapper.find(GroupName).text()).toEqual(`${mockProps.index}조`);
+    expect(wrapper.find(GroupName).text()).toEqual(`${mockProps.groupName}`);
   });
 
   it('should render NameItem component by groupMember props', () => {

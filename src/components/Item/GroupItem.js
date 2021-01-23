@@ -32,10 +32,10 @@ const GroupMembersWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const GroupItem = ({ index, groupMembers }) => {
+const GroupItem = ({ groupName, groupMembers }) => {
   return (
     <Wrapper>
-      <GroupName>{index}조</GroupName>
+      <GroupName>{groupName}</GroupName>
       <GroupMembersWrapper>
         {groupMembers.map((groupMember) => (
           <NameItem key={groupMember._id} name={groupMember.name} />
@@ -46,7 +46,7 @@ const GroupItem = ({ index, groupMembers }) => {
 };
 
 GroupItem.propTypes = {
-  index: PropTypes.number.isRequired,
+  groupName: PropTypes.string.isRequired,
   groupMembers: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,

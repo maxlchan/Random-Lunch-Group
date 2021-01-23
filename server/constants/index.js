@@ -1,7 +1,7 @@
 const ROUTES = {
   api: '/api',
   people: {
-    root: 'people',
+    root: '/people',
     detail: '/people/:personId',
   },
 };
