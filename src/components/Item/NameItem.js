@@ -18,12 +18,9 @@ const Wrapper = styled.div`
   user-select: none;
 
   &:hover {
-  /* Start the shake animation and make the animation last for 0.5 seconds */
-  animation: shake 1.5s;
-
-  /* When the animation is finished, start again */
-  animation-iteration-count: infinite;
-}
+    animation: shake 1.5s;
+    animation-iteration-count: infinite;
+  }
 
   @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
