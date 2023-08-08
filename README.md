@@ -1,7 +1,4 @@
 # ☕️ Lunch
-
-![Main Image](https://ifh.cc/g/UbGOFf.jpg)
-
 **Lunch**는 점심식사 인원을 랜덤으로 그룹핑 해주는 미니 웹 어플리케이션입니다.
 
 ![https://media.giphy.com/media/QnVqjOvxPQMXplYgCO/giphy.gif](https://media.giphy.com/media/QnVqjOvxPQMXplYgCO/giphy.gif)
